@@ -10,7 +10,6 @@ var usersRouter = require('./routes/users');
 var drinksRouter = require('./routes/drinks');
 var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
-var Drinks=require("./models/drinks");
 var resourceRouter = require('./routes/resource');
 
 var app = express();
@@ -71,7 +70,7 @@ async function recreateDB() {
   let instance1 = new Drinks({ 
     drinks_brand: "Coke",
     drinks_quantity: '4 Gallons',
-    drinkss_cost: 160
+    drinks_cost: 160
   });
   instance1.save().then(doc=>{
     console.log("First object saved")
@@ -82,7 +81,7 @@ async function recreateDB() {
   let instance2 = new Drinks({
     drinks_brand: "Pepsi",
     drinks_quantity: '3 Gallons',
-    drinkss_cost: 125
+    drinks_cost: 125
   });
   instance2.save().then(doc=>{
     console.log("Second object saved")
@@ -93,7 +92,7 @@ async function recreateDB() {
   let instance3 = new Drinks({ 
     drinks_brand: "ThumsUp", 
     drinks_quantity: '2 Gallons', 
-    drinkss_cost: 140 
+    drinks_cost: 140 
   });
   instance3.save().then(doc=>{
     console.log("Third object saved")

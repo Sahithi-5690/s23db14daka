@@ -8,7 +8,7 @@ const drinksSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    drinkss_cost: {
+    drinks_cost: {
         type: String,
         required:true
     }
