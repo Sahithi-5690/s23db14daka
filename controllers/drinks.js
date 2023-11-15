@@ -12,8 +12,15 @@ exports.drinks_list = async function(req, res) {
     };
     
 // for a specific Drinks.
-exports.drinks_detail = function(req, res) {
-res.send('NOT IMPLEMENTED: Drinks detail: ' + req.params.id);
+exports.drinks_detail = async function(req, res) {
+    console.log("detail" + req.params.id)
+    try {
+    result = await Drinks.findById( req.params.id)
+    res.send(result)
+    } catch (error) {
+    res.status(500)
+    res.send(`{"error": document for id ${req.params.id} not found`);
+    }
 };
 
 // Handle Drinks create on POST.
@@ -42,8 +49,24 @@ exports.drinks_delete = function(req, res) {
 res.send('NOT IMPLEMENTED: Drinks delete DELETE ' + req.params.id);
 };
 // Handle Drinks update form on PUT.
-exports.drinks_update_put = function(req, res) {
-res.send('NOT IMPLEMENTED: Drinks update PUT' + req.params.id);
+exports.drinks_update_put = async function(req, res) {
+    console.log(`update on id ${req.params.id} with body
+    ${JSON.stringify(req.body)}`)
+    try {
+    let toUpdate = await Drinks.findById( req.params.id)
+    // Do updates of properties
+    if(req.body.drinks_brand)
+    toUpdate.drinks_brand = req.body.drinks_brand;
+    if(req.body.cost) toUpdate.cost = req.body.cost;
+    if(req.body.quantity) toUpdate.quantity = req.body.quantity;
+    let result = await toUpdate.save();
+    console.log("Sucess " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": ${err}: Update for id ${req.params.id}
+    failed`);
+    }
 };
 
 // VIEWS
