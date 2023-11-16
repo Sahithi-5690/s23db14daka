@@ -45,8 +45,16 @@ exports.drinks_create_post = async function(req, res) {
     };
 
 // Handle Drinks delete form on DELETE.
-exports.drinks_delete = function(req, res) {
-res.send('NOT IMPLEMENTED: Drinks delete DELETE ' + req.params.id);
+exports.drinks_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await Drinks.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
 };
 // Handle Drinks update form on PUT.
 exports.drinks_update_put = async function(req, res) {
@@ -81,3 +89,58 @@ exports.drinks_view_all_Page = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
     };
+
+// Handle a show one view with id specified by query
+exports.drinks_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+        result = await Drinks.findById( req.query.id)
+        res.render('drinksdetail',{ title: 'Drinks Detail', toShow: result });
+    }
+    catch(err){
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+ };
+
+ // Handle building the view for creating a drinks.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.drinks_create_Page = function(req, res) {
+    console.log("create view")
+    try{
+    res.render('drinkscreate', { title: 'Drinks Create'});
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+    };
+
+// Handle building the view for updating a drinks.
+// query provides the id
+exports.drinks_update_Page = async function(req, res) {
+console.log("update view for item "+req.query.id)
+try{
+let result = await Drinks.findById(req.query.id)
+res.render('drinksupdate', { title: 'Drinks Update', toShow: result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+
+// Handle a delete one view with id from query
+exports.drinks_delete_Page = async function(req, res) {
+console.log("Delete view for id " + req.query.id)
+try{
+result = await Drinks.findById(req.query.id)
+res.render('drinksdelete', { title: 'Drinks Delete', toShow:
+result });
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};

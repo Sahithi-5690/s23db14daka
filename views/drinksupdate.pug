@@ -1,0 +1,50 @@
+extends layout
+block content
+    h1= title
+ 
+    if (toShow == null)
+        h2 No instance to update
+   
+    else
+        - let drinksid = toShow._id
+        - let drinks_brand = toShow.drinks_brand
+        - let drinks_quantity = toShow.drinks_quantity
+        - let drinks_cost = toShow.drinks_cost
+       
+        div.row(class='mb-2')
+            div.mr-1 ID is
+            div #{drinksid}
+       
+        - let actionid = "/resource/drinks/" + drinksid
+       
+        form(id='DrinksForm', action= actionid, method="PUT")
+            div.form-group
+                label.drinksAttr(for='drinks_brand') Drinks Brand
+                input#drinks_brand(type='text', name='drinks_brand',value= drinks_brand)
+            div.form-group
+                label.drinksAttr(for='drinks_quantity') Drinks Quantity
+                input#drinks_quantity(type='text', name='drinks_quantity',value= drinks_quantity)
+            div.form-group
+                label.drinksAttr(for='drinks_cost') Drinks cost
+                input#drinks_cost(type='number', name='drinks_cost',value= drinks_cost)
+                br
+                br
+            input(type="submit")
+           
+            script.
+                document.forms['DrinksForm'].addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    // TODO do something here to show user that form is being submitted
+                    fetch(event.target.action, {
+                        method: 'PUT',
+                        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+                    }).then((resp) => {
+                        return resp.json(); // or resp.text() or whatever the server sends
+                    }).then((body) => {
+                        alert("Update succeded")
+                        // TODO handle body
+                    }).catch((error) => {
+                        // TODO handle error
+                        alert("Update failed " + error )
+                    });
+                });

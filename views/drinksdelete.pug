@@ -1,0 +1,54 @@
+extends layout
+block content
+    h1= title
+ 
+    if (toShow == null)
+        h2 No instance to delete
+    else
+        - let drinksid = toShow._id
+        - let drinks_brand = toShow.drinks_brand
+        - let drinks_quantity = toShow.drinks_quantity
+        - let drinks_cost = toShow.drinks_cost
+        - let actionid = "/resource/drinks/" + drinksid
+ 
+        script let actionid = "#{actionid}"
+        div
+            div.row
+                div(class='drinksAttr mr-3') Drinks ID is:
+                div #{drinksid}
+            div.row
+                div(class='drinksAttr mr-3') Drinks Brand is:
+                div #{drinks_brand}
+            div.row
+                div(class='drinksAttr mr-3') Drinks Quantity is:
+                div #{drinks_quantity}
+            div.row
+                div(class='drinksAttr mr-3') Drinks Cost is:
+                div #{drinks_cost}
+        br
+        br
+        button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+        button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+   
+    script.
+        function cancel() {
+        // Go back to the home page for the drinks collection
+            window.location.href='/drinks'
+        }
+ 
+    script.
+        function deleteOnid() {
+            console.log("starting delete")
+            // delete first
+            fetch(actionid, { method: 'DELETE' // Don't need a body for the delete
+            }).then((resp) => {
+                return resp.json(); // or resp.text() or whatever the server sends
+            }).then((body) => {
+                alert("Delete succeded")
+                window.location.href='/drinks'
+                // TODO handle body
+            }).catch((error) => {
+                // TODO handle error
+                alert("Delete failed " + error )
+            });
+        }
