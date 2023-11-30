@@ -1,22 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p My name is SaiSahithi Daka. All call me Sahithi.
-  button(class="btn btn-warning", onclick = "goFaster()") Press Me
+ if (!user)
+  a(href="/login") Login
   br
+  a(href="/register") Register
+ if (user)
+  p You are currently logged in as #{user.username}
+  a(href="/drinks") Take me to drinks
   br
-  div(id="faster") <i>Increase the speed.</i>
-  br
-  br
-  a(href="drinks") Navigate to Search page Drinks
-  script.
-    let mph = 20;
-    let change = 1;
-    function goFaster(){
-      mph += change;
-      change += 1;
-      let result = document.getElementById("faster");
-
-      result.innerHTML = "MPH " + mph + " with change" + change;
-    }
+  a(href="/logout") Logout

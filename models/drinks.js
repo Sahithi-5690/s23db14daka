@@ -9,8 +9,10 @@ const drinksSchema = mongoose.Schema({
         required:true
     },
     drinks_cost: {
-        type: String,
-        required:true
+        type: Number,
+        required:true,
+        min: 0,
+        max:400
     }
     })
 
