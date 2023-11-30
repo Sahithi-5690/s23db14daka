@@ -23,6 +23,8 @@ res.redirect("/login");
 
 /* GET create update page */
 router.get('/update', secured,drinks_controllers.drinks_update_Page);
+router.get('/delete', secured,drinks_controllers.drinks_delete_Page);
+router.get('/detail', secured,drinks_controllers.drinks_detail);
 
 /* GET delete drinks page */
 router.get('/delete', drinks_controllers.drinks_delete_Page);
